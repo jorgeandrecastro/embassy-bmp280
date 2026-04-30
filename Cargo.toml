@@ -1,0 +1,46 @@
+# Copyright (C) 2026 Jorge Andre Castro
+# GPL-2.0-or-later
+
+[package]
+edition      = "2024"
+name         = "embassy-bmp280"
+version      = "0.1.0"
+authors      = ["Jorge Andre Castro <georgeandrec@gmail.com>"]
+description  = "Driver async no_std pour le capteur pression/température BMP280, basé sur Embassy."
+documentation = "https://docs.rs/embassy-bmp280"
+readme       = "README.md"
+keywords     = ["embassy", "bmp280", "pressure", "no-std", "embedded"]
+categories   = ["embedded", "no-std", "hardware-support"]
+license      = "GPL-2.0-or-later"
+repository   = "https://github.com/jorgeandrecastro/embassy-bmp280"
+build        = false
+autolib      = false
+autobins     = false
+autoexamples = false
+autotests    = false
+autobenches  = false
+
+[lib]
+name = "embassy_bmp280"
+path = "src/lib.rs"
+
+[features]
+default = []
+# Active les méthodes de conversion f32 (temperature_celsius, pressure_hpa)
+float = []
+
+[dependencies.embassy-sync]
+version = ">=0.4, <0.9"
+
+[dependencies.embassy-time]
+version = ">=0.3, <0.6"
+
+[dependencies.embedded-hal-async]
+version = "1.0"
+
+[profile.release]
+opt-level     = "z"
+lto           = true
+codegen-units = 1
+panic         = "abort"
+strip         = true

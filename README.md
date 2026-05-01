@@ -11,6 +11,20 @@ async natif, zéro allocation, zéro `unsafe`, compatible bus I2C partagé.
 
 ---
 
+
+## Update v0.2.0
+
+- Remplacement des plages de compatibilité par des versions explicites afin d’assurer une meilleure stabilité et reproductibilité des builds.
+
+### Dépendances
+
+```toml
+[dependencies]
+embassy-bmp280 = "0.2"
+embassy-sync = "0.8"
+embassy-time = "0.5"
+embedded-hal-async = "1.0"
+
 ## ⚡ Caractéristiques
 
 - `#![forbid(unsafe_code)]` :sécurité garantie à la compilation
@@ -28,16 +42,17 @@ async natif, zéro allocation, zéro `unsafe`, compatible bus I2C partagé.
 
 ```toml
 [dependencies]
-embassy-bmp280       = "0.1.2"
-embassy-time         = { version = ">=0.3, <0.6" }
-embassy-sync         = { version = ">=0.4, <0.9" }
-embedded-hal-async   = { version = "1.0" }
+embassy-bmp280 = "0.2.0"
+embassy-sync= "0.8"
+embassy-time="0.5"
+embedded-hal-async="1.0"
+
 ```
 
 Pour activer les méthodes de conversion `f32` (`temperature_celsius()`, `pressure_hpa()`) :
 
 ```toml
-embassy-bmp280 = { version = "0.1.2", features = ["float"] }
+embassy-bmp280 = { version = "0.2.0", features = ["float"] }
 ```
 
 ---

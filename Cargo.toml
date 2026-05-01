@@ -4,7 +4,7 @@
 [package]
 edition      = "2024"
 name         = "embassy-bmp280"
-version      = "0.1.2"
+version      = "0.2.0"
 authors      = ["Jorge Andre Castro <georgeandrec@gmail.com>"]
 description  = "Driver async no_std pour le capteur pression/température BMP280, basé sur Embassy."
 documentation = "https://docs.rs/embassy-bmp280"
@@ -30,10 +30,10 @@ default = []
 float = []
 
 [dependencies.embassy-sync]
-version = ">=0.4, <0.9"
+version = "0.8"
 
 [dependencies.embassy-time]
-version = ">=0.3, <0.6"
+version = "0.5"
 
 [dependencies.embedded-hal-async]
 version = "1.0"

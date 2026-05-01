@@ -28,7 +28,7 @@ async natif, zéro allocation, zéro `unsafe`, compatible bus I2C partagé.
 
 ```toml
 [dependencies]
-embassy-bmp280       = "0.1.0"
+embassy-bmp280       = "0.1.2"
 embassy-time         = { version = ">=0.3, <0.6" }
 embassy-sync         = { version = ">=0.4, <0.9" }
 embedded-hal-async   = { version = "1.0" }
@@ -37,18 +37,19 @@ embedded-hal-async   = { version = "1.0" }
 Pour activer les méthodes de conversion `f32` (`temperature_celsius()`, `pressure_hpa()`) :
 
 ```toml
-embassy-bmp280 = { version = "0.1.1", features = ["float"] }
+embassy-bmp280 = { version = "0.1.2", features = ["float"] }
 ```
 
 ---
 
 ## 🔴 Câblage (Pico 2 / RP2350)
 
-Broche BMP280  |Connexion       |Note
-VIN            |3.3V ou 5V      |Vérifiez la sérigraphie du module
-GND            |Masse commune   |
-SCL            |ex: GP5         |Pull-up souvent intégré
-SDA            |ex: GP4         |Pull-up souvent intégré
+|Broche BMP280 |Connexion       |Note
+|--------------|----------------|-----------                       |
+|VIN            |3.3V ou 5V     |Vérifiez la sérigraphie du module |
+|GND            |Masse commune  |                                  |
+|SCL            |ex: GP5        |Pull-up souvent intégré           |
+|SDA            |ex: GP4        |Pull-up souvent intégré           |
 ---
 
 ## 🚀 Utilisation

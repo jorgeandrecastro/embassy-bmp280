@@ -10,7 +10,7 @@
 //! - Lecture calibration OTP au démarrage
 //! - Compensation température et pression (algorithme Bosch officiel)
 //! - Compatible bus I2C partagé (`embassy-embedded-hal`)
-//! - Zéro allocation, zéro `unsafe`
+//! - zéro `unsafe`
 //!
 //! ## Exemple minimal
 //! ```rust,ignore
@@ -47,7 +47,7 @@ const RESET_WORD:       u8 = 0xB6;
 
 // Adresse I2C
 
-/// Adresse I2C du BMP280 (broche SDO).
+/// Adresse I2C du BMP280.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Bmp280Address {
     /// SDO relié au GND → 0x76 (défaut usine).
@@ -131,14 +131,16 @@ impl Default for Bmp280Config {
 pub struct Bmp280Data {
     /// Température en centidegrés Celsius (ex: `2315` = 23.15 °C).
     pub temperature_cdeg: i32,
-    /// Pression en Pascals × 256 — format Q24.8.
+    /// Pression en Pascals × 256 : format Q24.8.
     /// Diviser par 256 pour obtenir des Pascals.
     pub pressure_pa256: u32,
 }
 
 impl Bmp280Data {
     /// Température en degrés Celsius (f32).
-    /// Disponible uniquement avec la feature `libm` ou dans un contexte `std`.
+    /// 
+    /// Note : Nécessite le support matériel FPU de la cible. 
+    /// Aucune dépendance externe (libm) n'est requise pour ces divisions simples.
     #[cfg(feature = "float")]
     pub fn temperature_celsius(&self) -> f32 {
         self.temperature_cdeg as f32 / 100.0
@@ -228,7 +230,7 @@ impl<I2C: I2c> Bmp280<I2C> {
 
     async fn soft_reset(&mut self) -> Result<(), Bmp280Error<I2C::Error>> {
         self.write_reg(REG_RESET, RESET_WORD).await?;
-        // Le BMP280 a besoin de ~2 ms après un reset (datasheet §4.1)
+        // Le BMP280 a besoin de ~2 ms après un reset pour être prêt à communiquer.
         Timer::after_millis(3).await;
         Ok(())
     }

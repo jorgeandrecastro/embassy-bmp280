@@ -37,22 +37,18 @@ embedded-hal-async   = { version = "1.0" }
 Pour activer les méthodes de conversion `f32` (`temperature_celsius()`, `pressure_hpa()`) :
 
 ```toml
-embassy-bmp280 = { version = "0.1.0", features = ["float"] }
+embassy-bmp280 = { version = "0.1.1", features = ["float"] }
 ```
 
 ---
 
 ## 🔴 Câblage (Pico 2 / RP2350)
 
-| Broche BMP280 | Connexion         | Note                          |
-|---------------|-------------------|-------------------------------|
-| VCC           | 3.3V              |                               |
-| GND           | Masse commune     |                               |
-| SCL           | GP5               | Pull-up recommandé (4.7 kΩ)  |
-| SDA           | GP4               | Pull-up recommandé (4.7 kΩ)  |
-| SDO           | GND → addr `0x76` | VCC → addr `0x77`             |
-| CSB           | 3.3V              | Active le mode I2C            |
-
+Broche BMP280  |Connexion       |Note
+VIN            |3.3V ou 5V      |Vérifiez la sérigraphie du module
+GND            |Masse commune   |
+SCL            |ex: GP5         |Pull-up souvent intégré
+SDA            |ex: GP4         |Pull-up souvent intégré
 ---
 
 ## 🚀 Utilisation
@@ -62,7 +58,7 @@ embassy-bmp280 = { version = "0.1.0", features = ["float"] }
 ```rust
 use embassy_bmp280::{Bmp280, Bmp280Address, Bmp280Config, PowerMode};
 
-// Adresse par défaut (SDO au GND)
+// Adresse par défaut 
 let mut bmp = Bmp280::new(i2c_device, Bmp280Address::Default, Bmp280Config::default()).await?;
 ```
 
@@ -120,7 +116,7 @@ let mut bmp = Bmp280::new(i2c_device, Bmp280Address::Default, config).await?;
 ### Gestion de l'adresse alternative
 
 ```rust
-// SA0 / SDO relié au 3.3V
+
 let mut bmp = Bmp280::new(i2c, Bmp280Address::Secondary, Bmp280Config::default()).await?;
 
 // Ou dynamiquement après une redétection
@@ -146,7 +142,7 @@ match Bmp280::new(i2c, Bmp280Address::Default, Bmp280Config::default()).await {
     Ok(bmp)  => { /* capteur prêt */ }
 
     Err(Bmp280Error::InvalidChipId(id)) => {
-        // Mauvais composant sur le bus — l'ID reçu est disponible pour le debug
+        // Mauvais composant sur le bus : l'ID reçu est disponible pour le debug
         defmt::error!("Chip ID inattendu : 0x{:02X}", id);
     }
 
@@ -222,10 +218,10 @@ embassy-bmp280/
 
 ### `Bmp280Address`
 
-| Variant | Valeur |
-|---------|--------|
-| `Default` | `0x76` (SDO au GND) |
-| `Secondary` | `0x77` (SDO au VCC) |
+| Variant | Valeur    |
+|---------|--------   |
+| `Default` | `0x76`  |
+| `Secondary` | `0x77`|
 | `Custom(u8)` | Valeur libre |
 
 ### `Bmp280Data`
@@ -255,4 +251,3 @@ GPL-2.0-or-later — voir [LICENSE](LICENSE).
 
 Copyright (C) 2026 Jorge Andre Castro
 
-Pour le peuple, les makers : merci Rust, merci Raspberry Pi. 🦅

@@ -24,6 +24,7 @@ embassy-bmp280 = "0.2"
 embassy-sync = "0.8"
 embassy-time = "0.5"
 embedded-hal-async = "1.0"
+```
 
 ## ⚡ Caractéristiques
 
@@ -52,7 +53,7 @@ embedded-hal-async="1.0"
 Pour activer les méthodes de conversion `f32` (`temperature_celsius()`, `pressure_hpa()`) :
 
 ```toml
-embassy-bmp280 = { version = "0.2.0", features = ["float"] }
+embassy-bmp280 = { version = "0.2.1", features = ["float"] }
 ```
 
 ---
